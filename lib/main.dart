@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scanner/Routes.dart';
 
 void main() {
   runApp(Index());
@@ -13,11 +14,8 @@ class _IndexState extends State<Index> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          child: Text("Home"),
-        ),
-      ),
+      initialRoute: "/",
+      onGenerateRoute: Routes.generateRoute,
     );
   }
 }
