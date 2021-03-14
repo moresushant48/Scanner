@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "558674287825",
+    "project_id": "scanner-efcbd",
+    "storage_bucket": "scanner-efcbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558674287825:android:639b1b636b947e05c5b9f0",
+        "android_client_info": {
+          "package_name": "io.moresushant48.brainyvision"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558674287825-2uj4s7btues1aq7tj44svtjecr07iu11.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.moresushant48.brainyvision",
+            "certificate_hash": "cb194ef55cbef6ea6ae14fb6d65540fcf11eb6d4"
+          }
+        },
+        {
+          "client_id": "558674287825-4f3r76k9qc8rkgkmgioq2uvcqjsbd6gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoX1Ie-LuiGHBPFy5CyyKyJmUBko1sSfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558674287825-4f3r76k9qc8rkgkmgioq2uvcqjsbd6gb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "558674287825-445qth3lhgufkorubn9f2i54ouujbrgf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.moresushant48.brainyvision"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
