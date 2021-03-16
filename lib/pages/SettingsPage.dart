@@ -22,83 +22,80 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
+        elevation: 0.0,
       ),
       body: ListView(
+        padding: EdgeInsets.all(_size),
         children: [
-          StatefulBuilder(
-            builder: (context, setState) {
-              return FutureBuilder(
-                future: authService.signIn(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.data.displayName != null)
-                    return Card(
-                      margin: EdgeInsets.all(_size),
-                      child: Container(
-                        padding: EdgeInsets.all(_size),
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: [
-                            ClipPath(
-                              clipper: OvalBottomBorderClipper(),
-                              child: Image(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(snapshot.data.photoUrl),
-                                height: 100.0,
-                                width: 100.0,
-                              ),
-                            ),
-                            //
-                            SizedBox(
-                              height: 14.0,
-                            ),
-                            //
-                            Text(
-                              snapshot.data.displayName,
-                              style: TextStyle(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold),
-                            ),
-                            //
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            //
-                            Text(
-                              snapshot.data.email,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.normal),
-                            )
-                          ],
+          Card(
+            child: FutureBuilder(
+              future: authService.signIn(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done)
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: _size,
+                      ),
+                      ClipPath(
+                        clipper: OvalBottomBorderClipper(),
+                        child: Image(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(snapshot.data.photoUrl),
+                          height: 100.0,
+                          width: 100.0,
                         ),
                       ),
-                    );
-                  else
-                    return ListTile(
-                      contentPadding: EdgeInsets.all(_size),
-                      isThreeLine: true,
-                      leading: FaIcon(
-                        FontAwesomeIcons.google,
-                        color: Colors.green,
+                      SizedBox(
+                        height: 14.0,
                       ),
-                      title: Text("Sign In with Google ?"),
-                      subtitle: Text(
-                          "Connect to Google Account & Save docs on Drive."),
-                    );
-                },
-              );
-            },
-          ),
-          //
+                      //
+                      Text(
+                        snapshot.data.displayName,
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                      //
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      //
+                      Text(
+                        snapshot.data.email,
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal),
+                      ),
 
+                      SizedBox(
+                        height: _size,
+                      )
+                    ],
+                  );
+                else
+                  return ListTile(
+                    contentPadding: EdgeInsets.all(_size),
+                    isThreeLine: true,
+                    leading: FaIcon(
+                      FontAwesomeIcons.google,
+                      color: Colors.green,
+                    ),
+                    title: Text("Sign In with Google ?"),
+                    subtitle:
+                        Text("Connect to Google Account & Save docs on Drive."),
+                  );
+              },
+            ),
+          ),
+
+          SizedBox(height: _size),
+
+          //
           StatefulBuilder(
             builder: (context, setState) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 4.0,
-                ),
-                //
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: _size),
                   child: Text(
@@ -127,13 +124,17 @@ class _SettingsPageState extends State<SettingsPage> {
 
                 //
                 SizedBox(
-                  height: 4.0,
+                  height: _size,
                 ),
                 //
-                Text(
-                  "Theme",
-                  style: TextStyle(
-                      color: Colors.redAccent, fontWeight: FontWeight.bold),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: _size),
+                  child: Text(
+                    "Theme",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Colors.redAccent, fontWeight: FontWeight.bold),
+                  ),
                 ),
 
                 FutureBuilder(
