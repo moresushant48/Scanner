@@ -1,6 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefService {
+  static String IS_NIGHT_MODE = "isNightMode";
+  static String IS_FP_ON = "isNightMode";
+
   SharedPreferences _sharedPreferences;
 
   Map<String, dynamic> defaults = {

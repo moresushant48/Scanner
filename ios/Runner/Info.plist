@@ -42,6 +42,10 @@
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
 
+		<key>NSFaceIDUsageDescription</key>
+		<string>Why is my app authenticating using face id?</string>
+
+
 		<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
 		<!-- Google Sign-in Section -->
 		<key>CFBundleURLTypes</key>
