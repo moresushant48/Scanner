@@ -115,7 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   );
                 } else
-                  return CircularProgressIndicator();
+                  return LinearProgressIndicator();
               },
             ),
           ),
