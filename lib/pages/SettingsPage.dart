@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scanner/services/Auth.dart';
 import 'package:scanner/services/Prefs.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:scanner/services/Theme.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -137,7 +138,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 // fingerprint
                 FutureBuilder(
-                  future: prefService.getSharedBool("isFpOn"),
+                  future: prefService.getSharedBool(PrefService.IS_FP_ON),
                   builder: (context, snapshot) => SwitchListTile(
                     title: Text("Use Fingerprint"),
                     secondary: FaIcon(
@@ -147,7 +148,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     value: snapshot.data,
                     onChanged: (value) {
                       setState(() {
-                        prefService.putSharedBool("isFpOn", value);
+                        prefService.putSharedBool(PrefService.IS_FP_ON, value);
                       });
                     },
                   ),
@@ -169,8 +170,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
 
                 FutureBuilder(
-                  future: prefService.getSharedBool("isNightMode") ?? false,
-                  builder: (context, snapshot) => SwitchListTile(
+                  future:
+                      prefService.getSharedBool(PrefService.IS_NIGHT_MODE) ??
+                          false,
+                  builder: (ctx, snapshot) => SwitchListTile(
                     title: Text("Dark/Night Mode"),
                     secondary: FaIcon(
                       FontAwesomeIcons.solidMoon,
@@ -179,7 +182,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     value: snapshot.data,
                     onChanged: (value) {
                       setState(() {
-                        prefService.putSharedBool("isNightMode", value);
+                        prefService.putSharedBool(
+                            PrefService.IS_NIGHT_MODE, value);
+                        themeService.switchTheme(context, value);
                       });
                     },
                   ),
