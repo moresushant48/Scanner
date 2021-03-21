@@ -3,7 +3,6 @@ import 'package:scanner/appbar/MainAppBar.dart';
 
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:google_sign_in/google_sign_in.dart' as signIn;
-import 'package:scanner/services/Auth.dart';
 
 class HomePage extends StatefulWidget {
   @override

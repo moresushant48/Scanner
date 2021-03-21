@@ -5,6 +5,7 @@ AppBar mainAppBar(BuildContext context) {
   choices.add("Settings");
   return AppBar(
     title: Text("Scanner"),
+    elevation: 0.0,
     actions: [
       PopupMenuButton<String>(
         onSelected: (value) {
