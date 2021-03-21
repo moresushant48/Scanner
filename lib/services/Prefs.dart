@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PrefService {
   static String IS_LOGGED_IN = "isLoggedIn";
   static String IS_NIGHT_MODE = "isNightMode";
-  static String IS_FP_ON = "isNightMode";
+  static String IS_FP_ON = "isFpOn";
 
   SharedPreferences _sharedPreferences;
 
