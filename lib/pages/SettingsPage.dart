@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scanner/services/Auth.dart';
 import 'package:scanner/services/Prefs.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  bool isSignedIn;
   @override
   void initState() {
     super.initState();
@@ -29,62 +32,90 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           Card(
             child: FutureBuilder(
-              future: authService.signIn(),
+              future: authService.getCurrentUser(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done)
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: _size,
-                      ),
-                      ClipPath(
-                        clipper: OvalBottomBorderClipper(),
-                        child: Image(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(snapshot.data.photoUrl),
-                          height: 100.0,
-                          width: 100.0,
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Visibility(
+                    visible: authService.isLoggedIn,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: _size,
                         ),
-                      ),
-                      SizedBox(
-                        height: 14.0,
-                      ),
-                      //
-                      Text(
-                        snapshot.data.displayName,
-                        style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold),
-                      ),
-                      //
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      //
-                      Text(
-                        snapshot.data.email,
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.normal),
-                      ),
+                        ClipPath(
+                          clipper: OvalBottomBorderClipper(),
+                          child: CachedNetworkImage(
+                            height: 100,
+                            width: 100,
+                            imageUrl: snapshot.data.photoUrl,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    LinearProgressIndicator(
+                                        value: downloadProgress.progress),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 14.0,
+                        ),
+                        //
+                        Text(
+                          snapshot.data.displayName,
+                          style: TextStyle(
+                              fontSize: 20.0, fontWeight: FontWeight.bold),
+                        ),
+                        //
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        //
+                        Text(
+                          snapshot.data.email,
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.normal),
+                        ),
 
-                      SizedBox(
-                        height: _size,
-                      )
-                    ],
-                  );
-                else
-                  return ListTile(
-                    contentPadding: EdgeInsets.all(_size),
-                    isThreeLine: true,
-                    leading: FaIcon(
-                      FontAwesomeIcons.google,
-                      color: Colors.green,
+                        SizedBox(
+                          height: _size,
+                        )
+                      ],
                     ),
-                    title: Text("Sign In with Google ?"),
-                    subtitle:
-                        Text("Connect to Google Account & Save docs on Drive."),
+                    replacement: Container(
+                      padding: EdgeInsets.all(_size),
+                      child: Column(
+                        children: [
+                          //
+                          ListTile(
+                            isThreeLine: true,
+                            leading: FaIcon(
+                              FontAwesomeIcons.google,
+                              color: Colors.green,
+                            ),
+                            title: Text("Sign In with Google ?"),
+                            subtitle: Text(
+                                "Connect to Google Account & Save docs on Drive."),
+                          ),
+                          //
+                          SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton(
+                              child: Text("Sign In"),
+                              onPressed: () async {
+                                GoogleSignInAccount account =
+                                    await authService.signIn();
+                                if (account != null) setState(() {});
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   );
+                } else
+                  return CircularProgressIndicator();
               },
             ),
           ),

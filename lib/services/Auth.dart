@@ -3,6 +3,8 @@ import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:scanner/models/User.dart';
 
 class AuthService {
+  bool isLoggedIn;
+
   UserProfile userProfile;
   GoogleSignInAccount googleUser;
 
@@ -10,20 +12,28 @@ class AuthService {
       GoogleSignIn.standard(scopes: [drive.DriveApi.driveScope]);
 
   // constructor
-  AuthService();
+  AuthService() {
+    isSignedIn().then((value) => isLoggedIn = value);
+  }
 
   Future<GoogleSignInAccount> signIn() async {
     googleUser = await googleSignIn.signIn();
-    userProfile = UserProfile(
-        id: googleUser.id,
-        name: googleUser.displayName,
-        email: googleUser.email,
-        photoUrl: googleUser.photoUrl);
+    if (googleUser != null) {
+      userProfile = UserProfile(
+          id: googleUser.id,
+          name: googleUser.displayName,
+          email: googleUser.email,
+          photoUrl: googleUser.photoUrl);
+    }
     return googleUser;
   }
 
-  Future<bool> isSignedIn() {
-    return googleSignIn.isSignedIn();
+  Future<GoogleSignInAccount> getCurrentUser() async {
+    return await googleSignIn.signInSilently();
+  }
+
+  Future<bool> isSignedIn() async {
+    return await googleSignIn.isSignedIn();
   }
 
   void signOut() {
