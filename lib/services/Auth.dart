@@ -37,7 +37,9 @@ class AuthService {
   }
 
   void signOut() {
-    googleSignIn.signOut();
+    googleSignIn.signOut().then((value) {
+      isLoggedIn = false;
+    });
   }
 
   //getter setters

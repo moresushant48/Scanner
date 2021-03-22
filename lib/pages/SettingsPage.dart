@@ -36,9 +36,9 @@ class _SettingsPageState extends State<SettingsPage> {
               future: authService.getCurrentUser(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return Visibility(
-                    visible: authService.isLoggedIn,
-                    child: Column(
+                  print("IsLoggedIn : " + authService.isLoggedIn.toString());
+                  if (snapshot.data != null)
+                    return Column(
                       children: [
                         SizedBox(
                           height: _size,
@@ -83,8 +83,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           height: _size,
                         )
                       ],
-                    ),
-                    replacement: Container(
+                    );
+                  else
+                    return Container(
                       padding: EdgeInsets.all(_size),
                       child: Column(
                         children: [
@@ -113,8 +114,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           )
                         ],
                       ),
-                    ),
-                  );
+                    );
                 } else
                   return LinearProgressIndicator();
               },

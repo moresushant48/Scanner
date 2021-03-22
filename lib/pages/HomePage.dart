@@ -3,6 +3,7 @@ import 'package:scanner/appbar/MainAppBar.dart';
 
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:google_sign_in/google_sign_in.dart' as signIn;
+import 'package:scanner/services/Auth.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,12 +30,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: () async {
           print("clicked in");
           try {
-            final googleSignIn = signIn.GoogleSignIn.standard(
-                scopes: [drive.DriveApi.driveScope]);
-            final signIn.GoogleSignInAccount account =
-                await googleSignIn.signIn();
-            print("User account $account");
-            print("in try");
+            authService.signOut();
           } catch (error) {
             print(error);
           }
