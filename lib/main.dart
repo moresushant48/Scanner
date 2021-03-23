@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:one_context/one_context.dart';
 import 'package:scanner/Routes.dart';
 import 'package:scanner/services/Theme.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -21,6 +22,7 @@ class _IndexState extends State<Index> {
       child: ThemeConsumer(
         child: Builder(
           builder: (themeContext) => MaterialApp(
+            builder: OneContext().builder,
             theme: ThemeProvider.themeOf(themeContext).data,
             initialRoute: "/",
             onGenerateRoute: Routes.generateRoute,

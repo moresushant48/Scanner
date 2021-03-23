@@ -36,10 +36,8 @@ class AuthService {
     return await googleSignIn.isSignedIn();
   }
 
-  void signOut() {
-    googleSignIn.signOut().then((value) {
-      isLoggedIn = false;
-    });
+  Future<GoogleSignInAccount> signOut() {
+    return googleSignIn.signOut();
   }
 
   //getter setters

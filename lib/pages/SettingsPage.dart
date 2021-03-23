@@ -6,6 +6,7 @@ import 'package:scanner/services/Auth.dart';
 import 'package:scanner/services/Prefs.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:scanner/services/Theme.dart';
+import 'package:one_context/one_context.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -81,6 +82,44 @@ class _SettingsPageState extends State<SettingsPage> {
 
                         SizedBox(
                           height: _size,
+                        ),
+                        //
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: _size, right: _size, bottom: _size),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: OutlinedButton(
+                              child: Text(
+                                "Sign Out",
+                                style: TextStyle(color: Colors.redAccent),
+                              ),
+                              onPressed: () async {
+                                OneContext().showDialog(
+                                  builder: (ctx) => AlertDialog(
+                                    title: Text("Sign Out"),
+                                    content: Text(
+                                        "Are you sure you want to Sign Out ?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(ctx),
+                                        child: Text("No"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          authService.signOut().then((value) {
+                                            Navigator.pop(ctx);
+                                            setState(() {});
+                                          });
+                                        },
+                                        child: Text("Yes"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         )
                       ],
                     );
