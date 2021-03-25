@@ -23,6 +23,7 @@ class _IndexState extends State<Index> {
         child: Builder(
           builder: (themeContext) => MaterialApp(
             builder: OneContext().builder,
+            navigatorKey: OneContext().key,
             theme: ThemeProvider.themeOf(themeContext).data,
             initialRoute: "/",
             onGenerateRoute: Routes.generateRoute,
