@@ -37,6 +37,14 @@ dependencies:
   cached_network_image: ^2.5.1
   theme_provider: ^0.5.0
   one_context: ^1.0.0
+  image_picker: ^0.7.3
+  image_cropper: ^1.4.0
+  camera: ^0.8.1
+  xfile: ^1.1.0
+  pdf: ^3.1.0
+  image: ^3.0.2
+  path_provider: ^2.0.1
+  native_pdf_view: ^4.0.1
 
 dev_dependencies:
   flutter_test:
