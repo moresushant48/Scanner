@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:scanner/pages/ScanProcessingPage.dart';
+import 'package:scanner/services/Storage.dart';
 
 Future<File> scanDocument(BuildContext context) async {
   return Navigator.push(
@@ -44,16 +46,6 @@ class _ScanPageState extends State<ScanPage> {
         setState(() {});
       });
     });
-    // while (true) {
-    //   ImagePicker().getImage(source: ImageSource.camera).then((pickedFile) {
-    //     ImageCropper.cropImage(sourcePath: pickedFile.path).then((actualFile) {
-    //       setState(() {
-    //         capturedPath.add(pickedFile.path);
-    //         capturedImages.add(actualFile);
-    //       });
-    //     });
-    //   });
-    // }
   }
 
   @override
@@ -126,10 +118,20 @@ class _ScanPageState extends State<ScanPage> {
                           final XFile xfile =
                               await _cameraController.takePicture();
                           await ImageCropper.cropImage(sourcePath: xfile.path)
-                              .then((file) {
-                            setState(() {
-                              capturedImages.add(XFile(file.path));
-                              capturedPath.add(file.path);
+                              .then((file) async {
+                            storageService
+                                .getSavePathForImage(DateTime.now().toString())
+                                .then((tempPath) {
+                              FlutterImageCompress.compressAndGetFile(
+                                      file.path, tempPath,
+                                      quality: 50)
+                                  .then((compressedFile) {
+                                setState(() {
+                                  capturedImages
+                                      .add(XFile(compressedFile.path));
+                                  capturedPath.add(compressedFile.path);
+                                });
+                              });
                             });
                           });
                         } catch (e) {

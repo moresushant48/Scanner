@@ -8,8 +8,11 @@ class AuthService {
   UserProfile userProfile;
   GoogleSignInAccount googleUser;
 
-  final GoogleSignIn googleSignIn =
-      GoogleSignIn.standard(scopes: [drive.DriveApi.driveScope]);
+  final GoogleSignIn googleSignIn = GoogleSignIn.standard(scopes: [
+    drive.DriveApi.driveScope,
+    drive.DriveApi.driveAppdataScope,
+    drive.DriveApi.driveFileScope
+  ]);
 
   // constructor
   AuthService() {

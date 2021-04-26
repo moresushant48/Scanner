@@ -4,6 +4,7 @@ class PrefService {
   static String IS_LOGGED_IN = "isLoggedIn";
   static String IS_NIGHT_MODE = "isNightMode";
   static String IS_FP_ON = "isFpOn";
+  static String ROOT_FOLDER_ID = "rootFolderId";
 
   SharedPreferences _sharedPreferences;
 
@@ -11,6 +12,7 @@ class PrefService {
     "isLoggedIn": false,
     "isNightMode": false,
     "isFpOn": false,
+    "rootFolderId": null
   };
 
   //constructor
@@ -61,7 +63,7 @@ class PrefService {
     _sharedPreferences = await SharedPreferences.getInstance();
     return _sharedPreferences.getString(key) != null
         ? _sharedPreferences.getString(key)
-        : false;
+        : "";
   }
 
   getShared(String key) async {

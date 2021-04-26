@@ -2,10 +2,15 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:pdf/pdf.dart';
-import 'package:image/image.dart' as i;
-import 'package:pdf/widgets.dart' as pw;
+import 'package:googleapis/drive/v3.dart' as drive;
+import 'package:one_context/one_context.dart';
+import 'package:scanner/services/Auth.dart';
+import 'package:scanner/services/DriveStorage.dart';
+import 'package:scanner/services/GoogleAuthClient.dart';
+import 'package:scanner/services/Prefs.dart';
+import 'package:scanner/services/Storage.dart';
 
 class ScanProcessing extends StatefulWidget {
   final List<XFile> images;
@@ -20,6 +25,11 @@ class ScanProcessing extends StatefulWidget {
 class _ScanProcessingState extends State<ScanProcessing> {
   List<XFile> images;
   List<String> paths;
+
+  TextEditingController fileNameController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool _pressedSave = false;
 
   @override
   void initState() {
@@ -39,28 +49,72 @@ class _ScanProcessingState extends State<ScanProcessing> {
   }
 
   _saveDoc() async {
-    final pdf = pw.Document();
+    print("Inside savedoc.");
+    getFileName().then((fileName) async {
+      if (fileName != null) {
+        print("FILENAME : " + fileName);
+        print("Returned");
 
-    images.forEach((image) {
-      i.Image img = i.decodeImage(File(image.path).readAsBytesSync());
-      pdf.addPage(
-        pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          margin: pw.EdgeInsets.zero,
-          build: (context) {
-            return pw.Center(
-              child: pw.Image(
-                pw.RawImage(
-                  width: img.width,
-                  height: img.height,
-                  bytes: img.getBytes(),
-                ),
-              ),
-            );
-          },
-        ),
-      );
+        storageService.saveOnDevice(images, fileName);
+        // driveStorage.saveOnGoogleDrive(images, fileName);
+
+        setState(() {
+          _pressedSave = false;
+        });
+      } else {
+        setState(() {
+          _pressedSave = false;
+        });
+      }
     });
+  }
+
+  Future<String> getFileName() async {
+    return OneContext().showDialog(
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          "Rename",
+          textAlign: TextAlign.center,
+        ),
+        content: Form(
+          key: _formKey,
+          child: TextFormField(
+            validator: (value) {
+              return value.isEmpty ? "File Name cannot be Blank." : null;
+            },
+            controller: fileNameController,
+            keyboardType: TextInputType.name,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9_-]')),
+            ],
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  borderSide: BorderSide(color: Colors.blue)),
+              labelText: 'Enter File Name',
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx), child: Text("Cancel")),
+          TextButton(
+              onPressed: () {
+                // if (fileNameController.value.text != "" &&
+                //     fileNameController.value.text != null) {
+                final FormState form = _formKey.currentState;
+                if (form.validate()) {
+                  print('Form is valid');
+                  Navigator.pop(ctx, fileNameController.value.text);
+                } else {
+                  print('Form is invalid');
+                }
+                // } else {}
+              },
+              child: Text("Save")),
+        ],
+      ),
+    );
   }
 
   @override
@@ -71,12 +125,29 @@ class _ScanProcessingState extends State<ScanProcessing> {
         title: Text("Modify"),
         actions: [
           //
-          TextButton(
-            child: Text(
-              "Save",
-              style: TextStyle(color: Colors.white),
+          Visibility(
+            visible: _pressedSave,
+            child: Center(
+              child: Container(
+                height: 25,
+                width: 25,
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.white,
+                ),
+              ),
             ),
-            onPressed: () => _saveDoc(),
+            replacement: TextButton(
+              child: Text(
+                "Save",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                setState(() {
+                  _pressedSave = true;
+                });
+                _saveDoc();
+              },
+            ),
           )
           //
         ],
