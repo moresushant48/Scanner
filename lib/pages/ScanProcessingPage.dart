@@ -60,6 +60,7 @@ class _ScanProcessingState extends State<ScanProcessing> {
 
         setState(() {
           _pressedSave = false;
+          OneContext.instance.popUntil((route) => route.isFirst ? true : false);
         });
       } else {
         setState(() {

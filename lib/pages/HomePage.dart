@@ -64,7 +64,9 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.login),
         onPressed: () async {
-          scanDocument(context);
+          scanDocument(context).then((value) {
+            setState(() {});
+          });
         },
       ),
     );
