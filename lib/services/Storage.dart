@@ -11,7 +11,7 @@ class StorageService {
   StorageService();
 
   Future<String> getHomePath() async {
-    return "${(await getApplicationDocumentsDirectory()).path}/BrainyVision/";
+    return "${(await getExternalStorageDirectory()).path}/";
   }
 
   Future<String> getSavePathForImage(String fileName) async {

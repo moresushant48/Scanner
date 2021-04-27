@@ -46,6 +46,8 @@ dependencies:
   path_provider: ^2.0.1
   native_pdf_view: ^4.0.1
   flutter_image_compress: ^1.0.0
+  liquid_pull_to_refresh: ^3.0.0
+  flutter_staggered_animations: ^1.0.0
 
 dev_dependencies:
   flutter_test:
