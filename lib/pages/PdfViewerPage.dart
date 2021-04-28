@@ -1,3 +1,4 @@
+import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:flutter_fullpdfview/flutter_fullpdfview.dart' as fullPdf;
 
@@ -12,8 +13,12 @@ class PdfViewer extends StatefulWidget {
 class _PdfViewerState extends State<PdfViewer> {
   @override
   Widget build(BuildContext context) {
-    return fullPdf.PDFView(
-      filePath: widget.pdfPath,
-    );
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(path.basename(widget.pdfPath)),
+        ),
+        body: fullPdf.PDFView(
+          filePath: widget.pdfPath,
+        ));
   }
 }
