@@ -48,6 +48,7 @@ dependencies:
   flutter_image_compress: ^1.0.0
   liquid_pull_to_refresh: ^3.0.0
   flutter_staggered_animations: ^1.0.0
+  flutter_fullpdfview: ^1.1.5
 
 dev_dependencies:
   flutter_test:

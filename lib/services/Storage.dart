@@ -57,6 +57,16 @@ class StorageService {
       print("Saved file At : " + file.path);
     });
   }
+
+  Future<List<FileSystemEntity>> getLocalScannedDocs() async {
+    print("Inside Local Scanned docs.");
+    String homePath = await getHomePath();
+    print("Home Path : " + homePath);
+    Directory homeDir = Directory(homePath);
+    print("Home Dir : " + homeDir.path);
+    // setState(() {});
+    return await homeDir.list().toList();
+  }
 }
 
 final storageService = StorageService();

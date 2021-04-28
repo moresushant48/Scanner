@@ -18,18 +18,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    print("Init State.");
-    // getLocalScannedDocs();
-  }
-
-  Future<List<FileSystemEntity>> getLocalScannedDocs() async {
-    print("Inside Local Scanned docs.");
-    String homePath = await storageService.getHomePath();
-    print("Home Path : " + homePath);
-    Directory homeDir = Directory(homePath);
-    print("Home Dir : " + homeDir.path);
-    // setState(() {});
-    return await homeDir.list().toList();
   }
 
   @override
@@ -44,7 +32,7 @@ class _HomePageState extends State<HomePage> {
             return Future.value(false);
           },
           child: FutureBuilder(
-            future: getLocalScannedDocs(),
+            future: storageService.getLocalScannedDocs(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.data != null) {
