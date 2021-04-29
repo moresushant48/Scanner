@@ -31,22 +31,7 @@ class _HomePageState extends State<HomePage> {
             setState(() {});
             return Future.value(false);
           },
-          child: FutureBuilder(
-            future: storageService.getLocalScannedDocs(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.data != null) {
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: scanList(context, snapshot.data),
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              } else
-                return Center(child: CircularProgressIndicator());
-            },
-          ),
+          child: scanList(context),
         ),
       ),
       floatingActionButton: FloatingActionButton(
