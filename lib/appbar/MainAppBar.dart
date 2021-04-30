@@ -4,7 +4,8 @@ AppBar mainAppBar(BuildContext context) {
   List<String> choices = [];
   choices.add("Settings");
   return AppBar(
-    title: Text("Scanner"),
+    title: Text("Brainy Vision"),
+    centerTitle: true,
     elevation: 0.0,
     actions: [
       PopupMenuButton<String>(
