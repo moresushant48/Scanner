@@ -4,8 +4,9 @@ import 'package:one_context/one_context.dart';
 import 'package:path/path.dart' as path;
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:file_icon/file_icon.dart';
 import 'package:scanner/pages/PdfViewerPage.dart';
+import 'package:scanner/services/FileService.dart';
 import 'package:scanner/services/Storage.dart';
 
 Widget scanList(BuildContext context) {
@@ -41,13 +42,13 @@ Widget scanList(BuildContext context) {
                               },
                               child: Card(
                                 child: ListTile(
-                                  leading: Icon(
-                                    FontAwesomeIcons.solidFilePdf,
-                                    size: 35.0,
-                                    color: Colors.redAccent,
+                                  leading: FileIcon(
+                                    path.basename(snapshot.data[index].path),
+                                    size: 35,
                                   ),
                                   title: Text(
                                       path.basename(snapshot.data[index].path)),
+                                  trailing: _getEntitySize(snapshot, index),
                                 ),
                               ),
                             ),
@@ -66,4 +67,17 @@ Widget scanList(BuildContext context) {
       );
     },
   );
+}
+
+Widget _getEntitySize(AsyncSnapshot<dynamic> snapshot, int index) {
+  return (snapshot.data[index] is File)
+      ? FutureBuilder(
+          future: File(snapshot.data[index].path).length(),
+          builder: (context, snap) {
+            if (snap.connectionState == ConnectionState.done) {
+              return Text(fileService.formatBytes(snap.data, 0));
+            } else
+              return CircularProgressIndicator();
+          })
+      : null;
 }
