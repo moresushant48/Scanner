@@ -85,7 +85,7 @@ Widget _getEntitySize(AsyncSnapshot<dynamic> snapshot, int index) {
             } else
               return CircularProgressIndicator();
           })
-      : null;
+      : Icon(Icons.chevron_right);
 }
 
 _openFileOrDir(AsyncSnapshot<dynamic> snapshot, int index) {
