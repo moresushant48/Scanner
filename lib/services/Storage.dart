@@ -58,9 +58,9 @@ class StorageService {
     });
   }
 
-  Future<List<FileSystemEntity>> getLocalScannedDocs() async {
+  Future<List<FileSystemEntity>> getLocalScannedDocs(String addPath) async {
     print("Inside Local Scanned docs.");
-    String homePath = await getHomePath();
+    String homePath = await getHomePath() + (addPath != null ? addPath : "");
     print("Home Path : " + homePath);
     Directory homeDir = Directory(homePath);
     print("Home Dir : " + homeDir.path);

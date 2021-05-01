@@ -6,6 +6,8 @@ import 'package:scanner/pages/ScanPage.dart';
 import 'package:scanner/pages/ScansListWidget.dart';
 
 class HomePage extends StatefulWidget {
+  final String addPath;
+  HomePage({this.addPath});
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -23,7 +25,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: mainAppBar(context),
       body: Center(
-        child: scanList(context),
+        child: ListScans(
+          addPath: widget.addPath,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
