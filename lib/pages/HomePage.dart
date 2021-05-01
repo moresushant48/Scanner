@@ -7,7 +7,8 @@ import 'package:scanner/pages/ScansListWidget.dart';
 
 class HomePage extends StatefulWidget {
   final String addPath;
-  HomePage({this.addPath});
+  final String appBarTitle;
+  HomePage({this.addPath, this.appBarTitle});
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: mainAppBar(context),
+      appBar: mainAppBar(context, widget.appBarTitle),
       body: Center(
         child: ListScans(
           addPath: widget.addPath,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-AppBar mainAppBar(BuildContext context) {
+AppBar mainAppBar(BuildContext context, String appBarTitle) {
   List<String> choices = [];
   choices.add("Settings");
   return AppBar(
-    title: Text("Brainy Vision"),
+    title: Text(appBarTitle != null ? appBarTitle : "Brainy Vision"),
     centerTitle: true,
     elevation: 0.0,
     actions: [

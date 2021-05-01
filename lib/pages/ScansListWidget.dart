@@ -98,6 +98,7 @@ _openFileOrDir(AsyncSnapshot<dynamic> snapshot, int index) {
     return OneContext.instance.push(MaterialPageRoute(
         builder: (context) => HomePage(
               addPath: path.basename(snapshot.data[index].path).toString(),
+              appBarTitle: path.basename(snapshot.data[index].path).toString(),
             )));
   }
 }
