@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:one_context/one_context.dart';
 import 'package:path/path.dart' as path;
 
@@ -20,42 +21,50 @@ Widget scanList(BuildContext context) {
               return Padding(
                 padding: EdgeInsets.all(4.0),
                 child: AnimationLimiter(
-                  child: ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return AnimationConfiguration.staggeredList(
-                        position: index,
-                        duration: Duration(milliseconds: 400),
-                        child: SlideAnimation(
-                          child: FadeInAnimation(
-                            child: GestureDetector(
-                              onTap: () {
-                                print("Opening pdf");
-                                OneContext.instance
-                                    .push(MaterialPageRoute(
-                                  builder: (context) => PdfViewer(
-                                      pdfPath: snapshot.data[index].path),
-                                ))
-                                    .then((value) {
-                                  setState(() {});
-                                });
-                              },
-                              child: Card(
-                                child: ListTile(
-                                  leading: FileIcon(
-                                    path.basename(snapshot.data[index].path),
-                                    size: 35,
+                  child: LiquidPullToRefresh(
+                    showChildOpacityTransition: false,
+                    animSpeedFactor: 5.0,
+                    onRefresh: () {
+                      setState(() {});
+                      return Future.value(false);
+                    },
+                    child: ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: Duration(milliseconds: 400),
+                          child: SlideAnimation(
+                            child: FadeInAnimation(
+                              child: GestureDetector(
+                                onTap: () {
+                                  print("Opening pdf");
+                                  OneContext.instance
+                                      .push(MaterialPageRoute(
+                                    builder: (context) => PdfViewer(
+                                        pdfPath: snapshot.data[index].path),
+                                  ))
+                                      .then((value) {
+                                    setState(() {});
+                                  });
+                                },
+                                child: Card(
+                                  child: ListTile(
+                                    leading: FileIcon(
+                                      path.basename(snapshot.data[index].path),
+                                      size: 35,
+                                    ),
+                                    title: Text(path
+                                        .basename(snapshot.data[index].path)),
+                                    trailing: _getEntitySize(snapshot, index),
                                   ),
-                                  title: Text(
-                                      path.basename(snapshot.data[index].path)),
-                                  trailing: _getEntitySize(snapshot, index),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
               );

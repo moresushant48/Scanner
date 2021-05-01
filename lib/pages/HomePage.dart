@@ -25,14 +25,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: mainAppBar(context),
       body: Center(
-        child: LiquidPullToRefresh(
-          showChildOpacityTransition: false,
-          onRefresh: () {
-            setState(() {});
-            return Future.value(false);
-          },
-          child: scanList(context),
-        ),
+        child: scanList(context),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
