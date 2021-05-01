@@ -18,11 +18,19 @@ class StorageService {
     return "${(await getExternalStorageDirectory()).path}/Pictures/$fileName.jpg";
   }
 
-  Future<String> getSavePathForPdf(String fileName) async {
-    return "${(await getExternalStorageDirectory()).path}/$fileName.pdf";
+  Future<String> getSavePathForPdf(String addPath, String fileName) async {
+    // print("addPath in StorageService : " + addPath);
+    if (addPath == null) {
+      print("NULL HAI RE : " + addPath.toString());
+    } else
+      print("NULL NHI HAI");
+    return addPath != null
+        ? "${(await getHomePath())}$addPath/$fileName.pdf"
+        : "${(await getHomePath())}$fileName.pdf";
   }
 
-  Future<File> getFileFromImages(List<XFile> images, String fileName) async {
+  Future<File> getFileFromImages(
+      List<XFile> images, String fileName, String addPath) async {
     final pdf = pw.Document();
     images.forEach((image) {
       i.Image img = i.decodeImage(File(image.path).readAsBytesSync());
@@ -44,16 +52,18 @@ class StorageService {
         ),
       );
     });
-
-    final file = File(await getSavePathForPdf(fileName));
+    String filePath = await getSavePathForPdf(addPath, fileName);
+    print("=============\nFILE PATH " + filePath);
+    final file = File(filePath);
     Uint8List data = await pdf.save();
     file.writeAsBytes(data);
 
     return file;
   }
 
-  void saveOnDevice(List<XFile> images, String fileName) async {
-    getFileFromImages(images, fileName).then((file) {
+  void saveOnDevice(List<XFile> images, String fileName, String addPath) async {
+    // print("Save Path : " + addPath + "//" + fileName);
+    getFileFromImages(images, fileName, addPath).then((file) {
       print("Saved file At : " + file.path);
     });
   }

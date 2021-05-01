@@ -10,8 +10,13 @@ import 'package:scanner/services/Storage.dart';
 class ScanProcessing extends StatefulWidget {
   final List<XFile> images;
   final List<String> paths;
+  final String addPath;
 
-  const ScanProcessing({Key key, @required this.images, @required this.paths})
+  const ScanProcessing(
+      {Key key,
+      @required this.images,
+      @required this.paths,
+      @required this.addPath})
       : super(key: key);
   @override
   _ScanProcessingState createState() => _ScanProcessingState();
@@ -47,7 +52,8 @@ class _ScanProcessingState extends State<ScanProcessing> {
         print("FILENAME : " + fileName);
         print("Returned");
 
-        storageService.saveOnDevice(images, fileName);
+        // print("addPath in ScanProcessingPage : " + widget.addPath);
+        storageService.saveOnDevice(images, fileName, widget.addPath);
         // driveStorage.saveOnGoogleDrive(images, fileName);
 
         setState(() {

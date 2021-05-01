@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("Init path : " + widget.addPath.toString());
     return Scaffold(
       appBar: mainAppBar(context, widget.appBarTitle),
       body: Center(
@@ -35,7 +36,8 @@ class _HomePageState extends State<HomePage> {
           Icons.camera_alt_outlined,
         ),
         onPressed: () async {
-          scanDocument(context).then((value) {
+          print("addPath in HomePage : " + widget.addPath.toString());
+          scanDocument(context, widget.addPath).then((value) {
             setState(() {});
           });
         },

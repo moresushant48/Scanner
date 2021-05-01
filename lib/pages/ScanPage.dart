@@ -4,19 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:one_context/one_context.dart';
 import 'package:scanner/pages/ScanProcessingPage.dart';
 import 'package:scanner/services/Storage.dart';
 
-Future<File> scanDocument(BuildContext context) async {
-  return Navigator.push(
-    context,
+Future<File> scanDocument(BuildContext context, String addPath) async {
+  return OneContext.instance.push(
     MaterialPageRoute(
-      builder: (_) => ScanPage(),
+      builder: (_) => ScanPage(
+        addPath: addPath,
+      ),
     ),
   );
 }
 
 class ScanPage extends StatefulWidget {
+  final String addPath;
+  ScanPage({this.addPath});
   @override
   _ScanPageState createState() => _ScanPageState();
 }
@@ -179,12 +183,14 @@ class _ScanPageState extends State<ScanPage> {
                           ),
                         ),
                         onTap: () async {
+                          // print("addPath in ScanPage : " + widget.addPath);
                           File pdf = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => ScanProcessing(
                                 images: capturedImages,
                                 paths: capturedPath,
+                                addPath: widget.addPath,
                               ),
                             ),
                           );
