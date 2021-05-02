@@ -11,11 +11,21 @@ class StorageService {
   StorageService();
 
   Future<String> getHomePath() async {
-    return "${(await getExternalStorageDirectory()).path}/";
+    return "${(await getExternalStorageDirectory()).path}/BrainyVision/";
   }
 
   Future<String> getSavePathForImage(String fileName) async {
     return "${(await getExternalStorageDirectory()).path}/Pictures/$fileName.jpg";
+  }
+
+  Future<void> createHomeDir() async {
+    Directory dir =
+        Directory((await getExternalStorageDirectory()).path + "/BrainyVision");
+    if (await dir.exists()) {
+      print("HOME DIR EXISTS");
+    } else {
+      dir.create().then((dir) => print("HOME DIR " + dir.path + " CREATED."));
+    }
   }
 
   Future<String> getSavePathForPdf(String addPath, String fileName) async {
