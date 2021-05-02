@@ -36,33 +36,38 @@ class ListScansState extends State<ListScans> {
                     setState(() {});
                     return Future.value(false);
                   },
-                  child: ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return AnimationConfiguration.staggeredList(
-                        position: index,
-                        duration: Duration(milliseconds: 400),
-                        child: SlideAnimation(
-                          child: FadeInAnimation(
-                            child: GestureDetector(
-                              onTap: () => _openFileOrDir(snapshot, index),
-                              child: Card(
-                                child: ListTile(
-                                  leading: FileIcon(
-                                    path.basename(snapshot.data[index].path),
-                                    size: 35,
+                  child: snapshot.data.length != 0
+                      ? ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) {
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: Duration(milliseconds: 400),
+                              child: SlideAnimation(
+                                child: FadeInAnimation(
+                                  child: GestureDetector(
+                                    onTap: () =>
+                                        _openFileOrDir(snapshot, index),
+                                    child: Card(
+                                      child: ListTile(
+                                        leading: FileIcon(
+                                          path.basename(
+                                              snapshot.data[index].path),
+                                          size: 35,
+                                        ),
+                                        title: Text(path.basename(
+                                            snapshot.data[index].path)),
+                                        trailing:
+                                            _getEntitySize(snapshot, index),
+                                      ),
+                                    ),
                                   ),
-                                  title: Text(
-                                      path.basename(snapshot.data[index].path)),
-                                  trailing: _getEntitySize(snapshot, index),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                            );
+                          },
+                        )
+                      : Text("No PDFs found."),
                 ),
               ),
             );
