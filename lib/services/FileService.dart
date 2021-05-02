@@ -8,7 +8,9 @@ class FileService {
   static final String EXTENSION_PDF = ".pdf";
 
   TextEditingController fileNameController = TextEditingController();
+  TextEditingController folderNameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _folderFormKey = GlobalKey<FormState>();
 
   Future<String> getFileName(String defName) async {
     fileNameController.text = defName;
@@ -52,6 +54,52 @@ class FileService {
                   print('Form is invalid');
                 }
                 // } else {}
+              },
+              child: Text("Save")),
+        ],
+      ),
+    );
+  }
+
+  Future<String> getFolderName(String defName) async {
+    folderNameController.text = defName;
+    return OneContext().showDialog(
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          "Add Folder",
+          textAlign: TextAlign.center,
+        ),
+        content: Form(
+          key: _folderFormKey,
+          child: TextFormField(
+            validator: (value) {
+              return value.isEmpty ? "Folder Name cannot be Blank." : null;
+            },
+            controller: folderNameController,
+            keyboardType: TextInputType.name,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
+            ],
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  borderSide: BorderSide(color: Colors.blue)),
+              labelText: 'Enter Folder Name',
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx), child: Text("Cancel")),
+          TextButton(
+              onPressed: () {
+                final FormState form = _folderFormKey.currentState;
+                if (form.validate()) {
+                  print('Form is valid');
+                  Navigator.pop(ctx, folderNameController.value.text);
+                } else {
+                  print('Form is invalid');
+                }
               },
               child: Text("Save")),
         ],

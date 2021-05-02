@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     print("Init path : " + widget.addPath.toString());
     return Scaffold(
-      appBar: mainAppBar(context, widget.appBarTitle),
+      appBar: mainAppBar(context, widget.appBarTitle, setState),
       body: Center(
         child: ListScans(
           addPath: widget.addPath,
