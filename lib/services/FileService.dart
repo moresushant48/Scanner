@@ -1,8 +1,11 @@
 import 'dart:math';
+import 'dart:io';
+import 'package:path/path.dart' as path;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:one_context/one_context.dart';
+import 'package:share/share.dart';
 
 class FileService {
   static final String EXTENSION_PDF = ".pdf";
@@ -114,6 +117,23 @@ class FileService {
     return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) +
         ' ' +
         suffixes[i];
+  }
+
+  Future<bool> deleteFile(AsyncSnapshot<dynamic> snapshot, int index) {
+    if (snapshot.data[index] is File) {
+      File file = File(snapshot.data[index].path);
+      return file.delete().then((value) => Future.value(true));
+    } else {
+      Directory dir = Directory(snapshot.data[index].path);
+      return dir.delete().then((value) => Future.value(true));
+    }
+    return Future.value(false);
+  }
+
+  shareFile(AsyncSnapshot<dynamic> snapshot, int index) {
+    Share.shareFiles([snapshot.data[index].path],
+        subject:
+            "Checkout this PDF : " + path.basename(snapshot.data[index].path));
   }
 }
 

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:one_context/one_context.dart';
@@ -49,16 +50,44 @@ class ListScansState extends State<ListScans> {
                                     onTap: () =>
                                         _openFileOrDir(snapshot, index),
                                     child: Card(
-                                      child: ListTile(
-                                        leading: FileIcon(
-                                          path.basename(
-                                              snapshot.data[index].path),
-                                          size: 35,
+                                      child: Slidable(
+                                        actionPane: SlidableDrawerActionPane(),
+                                        actionExtentRatio: 0.25,
+                                        actions: (snapshot.data[index] is File)
+                                            ? [
+                                                IconSlideAction(
+                                                  caption: 'Share',
+                                                  color: Colors.indigo,
+                                                  icon: Icons.share,
+                                                  onTap: () =>
+                                                      fileService.shareFile(
+                                                          snapshot, index),
+                                                ),
+                                              ]
+                                            : null,
+                                        secondaryActions: [
+                                          IconSlideAction(
+                                            caption: 'Delete',
+                                            color: Colors.red,
+                                            icon: Icons.delete,
+                                            onTap: () => fileService
+                                                .deleteFile(snapshot, index)
+                                                .then((value) {
+                                              if (value) setState(() {});
+                                            }),
+                                          ),
+                                        ],
+                                        child: ListTile(
+                                          leading: FileIcon(
+                                            path.basename(
+                                                snapshot.data[index].path),
+                                            size: 35,
+                                          ),
+                                          title: Text(path.basename(
+                                              snapshot.data[index].path)),
+                                          trailing:
+                                              _getEntitySize(snapshot, index),
                                         ),
-                                        title: Text(path.basename(
-                                            snapshot.data[index].path)),
-                                        trailing:
-                                            _getEntitySize(snapshot, index),
                                       ),
                                     ),
                                   ),

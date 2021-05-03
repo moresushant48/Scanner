@@ -50,6 +50,8 @@ dependencies:
   flutter_staggered_animations: ^1.0.0
   flutter_fullpdfview: ^1.1.5
   file_icon: ^1.0.0
+  flutter_slidable: ^0.6.0
+  share: ^2.0.1
 
 dev_dependencies:
   flutter_test:
