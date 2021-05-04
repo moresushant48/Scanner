@@ -71,9 +71,15 @@ class ListScansState extends State<ListScans> {
                                             color: Colors.red,
                                             icon: Icons.delete,
                                             onTap: () => fileService
-                                                .deleteFile(snapshot, index)
-                                                .then((value) {
-                                              if (value) setState(() {});
+                                                .showDeleteDialog()
+                                                .then((delete) {
+                                              if (delete) {
+                                                fileService
+                                                    .deleteFile(snapshot, index)
+                                                    .then((value) {
+                                                  if (value) setState(() {});
+                                                });
+                                              }
                                             }),
                                           ),
                                         ],

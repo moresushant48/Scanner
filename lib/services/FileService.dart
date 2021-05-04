@@ -130,6 +130,23 @@ class FileService {
     return Future.value(false);
   }
 
+  Future<bool> showDeleteDialog() {
+    return OneContext().showDialog(
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text("Delete"),
+          content: Text("Are you sure you want to delete ?"),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(ctx, false), child: Text("No")),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx, true), child: Text("Yes")),
+          ],
+        );
+      },
+    );
+  }
+
   shareFile(AsyncSnapshot<dynamic> snapshot, int index) {
     Share.shareFiles([snapshot.data[index].path],
         subject:
