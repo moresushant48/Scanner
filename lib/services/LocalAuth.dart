@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:local_auth/local_auth.dart';
 import 'package:scanner/services/Prefs.dart';
 
@@ -11,8 +13,14 @@ class LocalAuth {
   bool isAuthenticated = false;
 
   LocalAuth() {
-    prefService.getSharedBool(PrefService.IS_FP_ON).then((value) {
-      this.isProtectionEnabled = value;
+    prefService.getSharedBool(PrefService.IS_FP_ON).then((value) async {
+      if (value) {
+        authenticate().then((done) {
+          if (!done) {
+            exit(0);
+          }
+        });
+      }
     });
   }
 

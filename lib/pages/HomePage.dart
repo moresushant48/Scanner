@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:scanner/appbar/MainAppBar.dart';
 import 'package:scanner/pages/ScanPage.dart';
 import 'package:scanner/pages/ScansListWidget.dart';
+import 'package:scanner/services/LocalAuth.dart';
 import 'package:scanner/services/Storage.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     storageService.createHomeDir();
+    LocalAuth();
   }
 
   @override
