@@ -8,6 +8,7 @@ import 'package:scanner/services/Storage.dart';
 AppBar mainAppBar(BuildContext context, String appBarTitle, setState) {
   List<String> choices = [];
   choices.add("Settings");
+  choices.add("About");
   return AppBar(
     leading: appBarTitle == null ? _addFolder(appBarTitle, setState) : null,
     title: Text(appBarTitle != null ? appBarTitle : "Brainy Vision"),
