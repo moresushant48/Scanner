@@ -47,8 +47,8 @@ class ListScansState extends State<ListScans> {
                               child: SlideAnimation(
                                 child: FadeInAnimation(
                                   child: GestureDetector(
-                                    onTap: () =>
-                                        _openFileOrDir(snapshot, index),
+                                    onTap: () => _openFileOrDir(
+                                        snapshot, index, setState),
                                     child: Card(
                                       child: Slidable(
                                         actionPane: SlidableDrawerActionPane(),
@@ -128,11 +128,14 @@ Widget _getEntitySize(AsyncSnapshot<dynamic> snapshot, int index) {
       : Icon(Icons.chevron_right);
 }
 
-_openFileOrDir(AsyncSnapshot<dynamic> snapshot, int index) {
+_openFileOrDir(AsyncSnapshot<dynamic> snapshot, int index, setState) {
   if (snapshot.data[index] is File) {
     print("Opening Pdf.");
-    return OneContext.instance.push(MaterialPageRoute(
-        builder: (context) => PdfViewer(pdfPath: snapshot.data[index].path)));
+    return OneContext.instance
+        .push(MaterialPageRoute(
+            builder: (context) =>
+                PdfViewer(pdfPath: snapshot.data[index].path)))
+        .then((value) => setState((){}));
   } else {
     print("Opening Dir.");
     return OneContext.instance.push(MaterialPageRoute(
