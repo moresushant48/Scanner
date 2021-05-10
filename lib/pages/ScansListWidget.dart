@@ -66,6 +66,34 @@ class ListScansState extends State<ListScans> {
                                               ]
                                             : null,
                                         secondaryActions: [
+                                          (snapshot.data[index] is File)
+                                              ? null
+                                              : IconSlideAction(
+                                                  caption: 'Rename',
+                                                  color: Colors.blueGrey,
+                                                  icon: Icons.edit,
+                                                  onTap: () => fileService
+                                                      .getFolderName(path
+                                                          .basenameWithoutExtension(
+                                                              snapshot
+                                                                  .data[index]
+                                                                  .path))
+                                                      .then((folderName) {
+                                                    if (path.basenameWithoutExtension(
+                                                            snapshot.data[index]
+                                                                .path) !=
+                                                        folderName) {
+                                                      fileService
+                                                          .renameFolder(
+                                                              snapshot
+                                                                  .data[index]
+                                                                  .path,
+                                                              folderName)
+                                                          .then((value) =>
+                                                              setState(() {}));
+                                                    }
+                                                  }),
+                                                ),
                                           IconSlideAction(
                                             caption: 'Delete',
                                             color: Colors.red,
@@ -135,7 +163,7 @@ _openFileOrDir(AsyncSnapshot<dynamic> snapshot, int index, setState) {
         .push(MaterialPageRoute(
             builder: (context) =>
                 PdfViewer(pdfPath: snapshot.data[index].path)))
-        .then((value) => setState((){}));
+        .then((value) => setState(() {}));
   } else {
     print("Opening Dir.");
     return OneContext.instance.push(MaterialPageRoute(

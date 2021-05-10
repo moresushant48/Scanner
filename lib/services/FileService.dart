@@ -130,6 +130,12 @@ class FileService {
     return Future.value(false);
   }
 
+  Future<void> renameFolder(String folderPath, String folderName) async {
+    Directory dir = Directory(folderPath);
+    dir.rename(path.join(path.dirname(folderPath), folderName));
+    return;
+  }
+
   Future<bool> showDeleteDialog() {
     return OneContext().showDialog(
       builder: (ctx) {
